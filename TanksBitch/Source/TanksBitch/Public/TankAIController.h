@@ -17,6 +17,14 @@ class TANKSBITCH_API ATankAIController : public AAIController
 public:
 	ATank* GetControlledTank() const;
 
+	ATank* GetPlayerTank() const;
+
 	void BeginPlay() override;
+
+	void Tick(float DeltaTime) override;
+
+	void AimTowardsCrosshair();
+
+	bool GetSightRayHitLocation(FVector &HitLocation);
 	
 };
