@@ -5,14 +5,13 @@
 
 
 ATank* ATankPlayerController::GetControlledTank() const {
-	ATank* Tank =  Cast<ATank>(GetPawn()); 
-	if (Tank) {
-		UE_LOG(LogTemp, Warning, TEXT("Controlled Tank name is: %s:"), *Tank->GetName())
+	auto TankPawn =  GetPawn(); 
+	if (TankPawn) {
+		return Cast<ATank>(TankPawn);
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("Not Controlling any tank"))
+		return nullptr;
 	}
-	return Tank;
 }
 
 void ATankPlayerController::BeginPlay() {
@@ -37,7 +36,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 	FVector HitLocation;
 	if (GetSightRayHitLocation(HitLocation))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
+		UE_LOG(LogTemp, Warning, TEXT("Player: %s aiming at: %s"), *GetPawn()->GetName(), *HitLocation.ToString());
 	}
 }
 
