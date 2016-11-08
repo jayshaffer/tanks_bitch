@@ -3,6 +3,22 @@
 #include "TanksBitch.h"
 #include "TankAIController.h"
 
+
+void ATankAIController::BeginPlay() {
+	Super::BeginPlay();
+	ATank* ControlledTank = GetControlledTank();
+	UE_LOG(LogTemp, Warning, TEXT("Tank AI Begin Play"))
+	ATank* PlayerTank = GetPlayerTank();
+	if (PlayerTank) {
+		UE_LOG(LogTemp, Warning, TEXT("AI Controller found player tank: %s"), *PlayerTank->GetName())
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("AI Controller did not find player tank"))
+	}
+}
+
+
+
 ATank* ATankAIController::GetControlledTank() const {
 	ATank* Tank = Cast<ATank>(GetPawn());
 	if (Tank) {
@@ -21,44 +37,3 @@ ATank* ATankAIController::GetPlayerTank() const {
 	}
 	return Cast<ATank>(PlayerPawn);
 }
-
-// Called every frame
-void ATankAIController::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	AimTowardsCrosshair();
-}
-
-void ATankAIController::AimTowardsCrosshair()
-{
-	if (!GetPlayerTank()) {
-		return;
-	}
-	FVector HitLocation;
-	if(GetSightRayHitLocation(HitLocation))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
-	}
-}
-
-bool ATankAIController::GetSightRayHitLocation(FVector &HitLocation)
-{
-	HitLocation = FVector(1.0f);
-	return false;
-}
-
-void ATankAIController::BeginPlay() {
-	Super::BeginPlay();
-	ATank* ControlledTank = GetControlledTank();
-	UE_LOG(LogTemp, Warning, TEXT("Tank AI Begin Play"))
-	ATank* PlayerTank = GetPlayerTank();
-	if (PlayerTank) {
-		UE_LOG(LogTemp, Warning, TEXT("AI Controller found player tank: %s"), *PlayerTank->GetName())
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("AI Controller did not find player tank"))
-	}
-}
-
-
-
