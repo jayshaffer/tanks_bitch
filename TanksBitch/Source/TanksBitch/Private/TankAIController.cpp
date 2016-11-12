@@ -27,10 +27,7 @@ void ATankAIController::Tick(float DeltaTime) {
 
 ATank* ATankAIController::GetControlledTank() const {
 	ATank* Tank = Cast<ATank>(GetPawn());
-	if (Tank) {
-		UE_LOG(LogTemp, Warning, TEXT("AI Tank name is: %s:"), *Tank->GetName())
-	}
-	else {
+	if (!Tank) {
 		UE_LOG(LogTemp, Warning, TEXT("AI not controlling tank"))
 	}
 	return Tank;

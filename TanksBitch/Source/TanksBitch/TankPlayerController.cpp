@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TanksBitch.h"
+#include "TankAimingComponent.h"
 #include "TankPlayerController.h"
 
 
@@ -30,13 +31,16 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControlledTank()) {
-		return;
-	}
-	FVector HitLocation;
-	if (GetSightRayHitLocation(HitLocation))
+
+	if (!GetPawn()) { return; } 
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
+
+	FVector HitLocation; 
+	bool bGotHitLocation = GetSightRayHitLocation(HitLocation);
+	if (bGotHitLocation)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Player: %s aiming at: %s"), *GetPawn()->GetName(), *HitLocation.ToString());
+		AimingComponent->AimAt(HitLocation);
 	}
 }
 
